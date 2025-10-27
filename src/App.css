@@ -1,0 +1,396 @@
+/* Navbar.css - Updated with exact colors from image */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.navbar {
+  font-family: 'Arial', sans-serif;
+  background: #fff;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+/* Top Info Bar - Dark blue from image */
+.top-info-bar {
+  background: #1a2b3c; /* Dark blue from the image header */
+  color: #ffffff;
+  padding: 8px 0;
+  font-size: 0.9rem;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.contact-info {
+  display: flex;
+  gap: 20px;
+}
+
+.business-hours {
+  font-size: 0.85rem;
+  color: #e0e0e0;
+}
+
+/* Main Navigation */
+.main-nav {
+  padding: 15px 0;
+  position: relative;
+  background: #ffffff;
+}
+
+.main-nav .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Logo - Red color from Audiopine */
+.logo h1 {
+  color: #d32f2f; /* Red color matching Audiopine */
+  font-size: 2rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Navigation Menu */
+.nav-menu {
+  display: flex;
+  list-style: none;
+  gap: 30px;
+  align-items: center;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: #2c3e50; /* Dark blue-gray from image text */
+  font-weight: 600;
+  transition: color 0.3s ease;
+  padding: 10px 0;
+  position: relative;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.nav-link:hover {
+  color: #d32f2f; /* Red accent on hover */
+}
+
+/* Active state indicator */
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: #d32f2f;
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* Dropdown Menu */
+.dropdown {
+  position: relative;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: #ffffff;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  list-style: none;
+  min-width: 200px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+  border-radius: 5px;
+  z-index: 1000;
+  border: 1px solid #e0e0e0;
+}
+
+.dropdown:hover .dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.dropdown-menu li {
+  border-bottom: 1px solid #f5f5f5;
+}
+
+.dropdown-menu li:last-child {
+  border-bottom: none;
+}
+
+.dropdown-menu a {
+  display: block;
+  padding: 12px 20px;
+  text-decoration: none;
+  color: #2c3e50;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.dropdown-menu a:hover {
+  background: #f8f9fa;
+  color: #d32f2f;
+  padding-left: 25px;
+}
+
+/* Search Section */
+.search-section {
+  display: flex;
+  align-items: center;
+}
+
+.search-bar {
+  display: flex;
+  background: #f8f9fa;
+  border-radius: 25px;
+  padding: 5px;
+  border: 1px solid #e0e0e0;
+  transition: all 0.3s ease;
+}
+
+.search-bar:focus-within {
+  border-color: #d32f2f;
+  box-shadow: 0 0 0 2px rgba(211, 47, 47, 0.1);
+}
+
+.search-input {
+  border: none;
+  background: transparent;
+  padding: 8px 15px;
+  outline: none;
+  width: 200px;
+  color: #2c3e50;
+  font-size: 0.9rem;
+}
+
+.search-input::placeholder {
+  color: #95a5a6;
+}
+
+.search-btn {
+  background: #d32f2f; /* Red accent */
+  border: none;
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  cursor: pointer;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s ease;
+}
+
+.search-btn:hover {
+  background: #b71c1c; /* Darker red on hover */
+}
+
+/* Page Title - Blue gradient from image */
+.page-title {
+  background: linear-gradient(135deg, #1a2b3c 0%, #2c3e50 100%); /* Dark blue gradient */
+  color: white;
+  padding: 25px 0;
+  text-align: center;
+  border-top: 1px solid #34495e;
+  border-bottom: 1px solid #34495e;
+}
+
+.page-title h2 {
+  font-size: 1.8rem;
+  font-weight: 400;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* Mobile Menu - Hamburger */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  gap: 4px;
+  padding: 5px;
+}
+
+.bar {
+  width: 25px;
+  height: 3px;
+  background: #2c3e50;
+  transition: 0.3s;
+  border-radius: 2px;
+}
+
+/* Hamburger animation when active */
+.hamburger.active .bar:nth-child(1) {
+  transform: rotate(-45deg) translate(-5px, 6px);
+}
+
+.hamburger.active .bar:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.active .bar:nth-child(3) {
+  transform: rotate(45deg) translate(-5px, -6px);
+}
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 15px;
+  }
+
+  .top-info-bar .container {
+    flex-direction: column;
+    gap: 5px;
+    text-align: center;
+  }
+
+  .contact-info {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+
+  .nav-menu {
+    position: fixed;
+    top: 140px;
+    left: -100%;
+    flex-direction: column;
+    background: white;
+    width: 100%;
+    text-align: center;
+    transition: 0.3s;
+    box-shadow: 0 10px 27px rgba(0,0,0,0.05);
+    padding: 20px 0;
+    gap: 0;
+    z-index: 999;
+    height: calc(100vh - 140px);
+    overflow-y: auto;
+  }
+
+  .nav-menu.active {
+    left: 0;
+  }
+
+  .nav-link {
+    padding: 15px;
+    display: block;
+    width: 100%;
+    border-bottom: 1px solid #f5f5f5;
+  }
+
+  .nav-link::after {
+    display: none;
+  }
+
+  .dropdown-menu {
+    position: static;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    box-shadow: none;
+    background: #f8f9fa;
+    display: none;
+    border: none;
+    border-radius: 0;
+  }
+
+  .dropdown.active .dropdown-menu {
+    display: block;
+  }
+
+  .search-bar {
+    margin-top: 15px;
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .search-input {
+    width: 100%;
+  }
+
+  .main-nav .container {
+    flex-wrap: wrap;
+  }
+
+  .logo {
+    order: 1;
+  }
+
+  .hamburger {
+    order: 2;
+  }
+
+  .nav-menu {
+    order: 3;
+    width: 100%;
+  }
+
+  .search-section {
+    order: 4;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .page-title h2 {
+    font-size: 1.5rem;
+    padding: 0 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo h1 {
+    font-size: 1.5rem;
+  }
+
+  .page-title h2 {
+    font-size: 1.3rem;
+  }
+
+  .business-hours span {
+    font-size: 0.8rem;
+  }
+
+  .contact-info {
+    font-size: 0.8rem;
+  }
+
+  .top-info-bar {
+    padding: 10px 0;
+  }
+}
+
+/* Additional utility classes */
+.text-accent {
+  color: #d32f2f;
+}
+
+.bg-dark {
+  background: #1a2b3c;
+}
+
+.bg-light {
+  background: #f8f9fa;
+}
+
