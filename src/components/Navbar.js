@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+  import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import {
   FaPhoneAlt,
@@ -82,14 +82,14 @@ function Navbar() {
                 <div className="menu-column">
                   <h4>Installation Services</h4>
                   <ul>
-                    <li><Link to="#">Car Audio Installation</Link></li>
+                    <li><Link to="/caraudio">Car Audio Installation</Link></li>
                     <li><Link to="#">Security System Setup</Link></li>
                   </ul>
                 </div>
                 <div className="menu-column">
                   <h4>Technology Solutions</h4>
                   <ul>
-                    <li><Link to="#">Cybersecurity & IT</Link></li>
+                    <li><Link to="/cybersecurity">Cybersecurity & IT</Link></li>
                     <li><Link to="/services">Software Development</Link></li>
                     <li><Link to="#">Digital Marketing</Link></li>
                   </ul>

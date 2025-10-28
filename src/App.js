@@ -5,6 +5,7 @@ import Shop from "./pages/shop";
 import Services from "./pages/services";
 import Community from "./pages/community";
 import Contact from "./pages/contact";
+import CyberSecurityComponent from "./pages/cybersecurity";
 
 function App() {
   return (
@@ -14,7 +15,11 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/shop" element={<Shop />} />
         <Route path="/services" element={<Services />} />
-        <Route path="/community" element={<Community />} />
+        
+        (/** service dropdown*/ */)
+                <Route path="/cybersecurity" element={<CyberSecurityComponent />} />
+
+               <Route path="/community" element={<Community />} />
         <Route path="/contact" element={<Contact />} />
       </Routes>
     </Router>
