@@ -1,6 +1,6 @@
 // CarAudioShop.jsx
 import React, { useState } from 'react';
-
+import Footer from '../components/footer';
 const CarAudioShop = () => {
   const [activeCategory, setActiveCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
@@ -371,6 +371,8 @@ const CarAudioShop = () => {
           </div>
         </div>
       </div>
+
+    <Footer />
     </div>
   );
 };
