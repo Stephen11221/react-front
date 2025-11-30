@@ -297,8 +297,95 @@ const styles = {
     fontWeight: 700,
     fontSize: "0.95rem",
   },
-};
 
+  "@media (max-width: 768px)": {
+    eventsGrid: {
+      display: "grid",
+      /* adjust to a single column on small screens */
+      gridTemplateColumns: "1fr",
+      gap: "1rem",
+      alignItems: "start",
+    }, 
+
+  
+    }
+};
+// compact card / grid adjustments so cards are smaller and fit naturally
+Object.assign(styles, {
+  eventsGrid: {
+    ...styles.eventsGrid,
+    // allow many cards to fit and shrink as needed
+    gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))",
+    gap: "1rem",
+  },
+  card: {
+    ...styles.card,
+    borderRadius: "0.375rem",
+    // reduce overall vertical sizing
+    overflow: "hidden",
+  },
+  cardImage: {
+    ...styles.cardImage,
+    height: "140px",
+    objectFit: "cover",
+  },
+  cardBody: {
+    ...styles.cardBody,
+    padding: "0.75rem",
+  },
+  cardTitle: {
+    ...styles.cardTitle,
+    fontSize: "1rem",
+  },
+  metaList: {
+    ...styles.metaList,
+    fontSize: "0.85rem",
+  },
+  priceRow: {
+    ...styles.priceRow,
+    gap: "0.5rem",
+  },
+  price: {
+    ...styles.price,
+    fontSize: "0.95rem",
+  },
+  registerBtn: {
+    ...styles.registerBtn,
+    padding: "0.45rem 0.8rem",
+    fontSize: "0.85rem",
+    borderRadius: "0.375rem",
+  },
+
+  highlightsGrid: {
+    ...styles.highlightsGrid,
+    gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))",
+    gap: "0.75rem",
+  },
+  highlightImage: {
+    ...styles.highlightImage,
+    height: "100px",
+  }
+});
+
+// tighten mobile behavior (merge with existing media settings)
+styles["@media (max-width: 768px)"] = {
+  ...styles["@media (max-width: 768px)"],
+  eventsGrid: {
+    display: "grid",
+    gridTemplateColumns: "repeat(1, 1fr)",
+    gap: "0.75rem",
+    alignItems: "start",
+  },
+  highlightsGrid: {
+    display: "grid",
+    gridTemplateColumns: "1fr",
+    gap: "0.75rem",
+  },
+  cardImage: {
+    ...styles.cardImage,
+    height: "120px",
+  }
+};
 const Community = () => {
   const [scrolled, setScrolled] = React.useState(false);
 
@@ -453,6 +540,7 @@ const Community = () => {
               <div style={styles.cardBody}>
                 <div>
                   <div style={styles.cardTitle}>Digital Marketing Masterclass</div>
+
                   <div style={styles.metaList}>
                     <div>12 April 2024 • 1:00 PM - 6:00 PM</div>
                     <div>Strathmore Business School</div>
