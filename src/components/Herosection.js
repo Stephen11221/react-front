@@ -155,7 +155,7 @@ function HeroSection() {
           left: 0;
           width: 100%;
           height: 100%;
-          background: rgba(0, 0, 0, 0.6);
+          background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.1), rgba(0,0,0,0.7));
           display: flex;
           flex-direction: column;
           justify-content: center;
