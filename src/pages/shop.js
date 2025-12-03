@@ -1,378 +1,653 @@
-// CarAudioShop.jsx
-import React, { useState } from 'react';
-import Footer from '../components/footer';
+import React, { useState, useEffect } from 'react';
+import { FaStar, FaSearch, FaList, FaTh, FaCheckCircle, FaBolt, FaCar } from 'react-icons/fa';
+import Footer from "../components/footer";
+
 const CarAudioShop = () => {
+  // === STATE MANAGEMENT ===
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  
+  // Filters
   const [activeCategory, setActiveCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
-  const [sortOption, setSortOption] = useState('special');
-  const [activeCompatibility, setActiveCompatibility] = useState('popular');
+  const [priceRange, setPriceRange] = useState(100000); // Visual slider state
 
+  // === MOCK DATA (Replace this with Axios call later) ===
+  useEffect(() => {
+    // TODO: When backend is ready:
+    // axios.get('http://localhost:8000/api/products').then(res => setProducts(res.data));
+    
+    // For now, use static data  
+    const mockData = [
+      {
+        id: 1,
+        name: 'Kenwood KFC-1696PS Component Speakers',
+        category: 'speakers',
+        rating: 5,
+        reviews: 156,
+        price: 12500,
+        oldPrice: 15000,
+        discount: 17,
+        compatibility: 'Most Toyota, Nissan Models +more',
+        badges: ['Special Offer', 'High Quality'],
+        badgeColors: ['#ef4444', '#0ea5e9'], // Red, Blue
+        inStock: false,
+        image: null // Placeholder
+      },
+      {
+        id: 2,
+        name: 'JBL GTO609C Component System',
+        category: 'speakers',
+        rating: 4.5,
+        reviews: 143,
+        price: 15800,
+        oldPrice: null,
+        discount: null,
+        compatibility: 'Most Toyota, Most Nissan +more',
+        badges: ['Audiophile Choice', 'Premium'],
+        badgeColors: ['#0ea5e9', '#0ea5e9'],
+        inStock: true,
+        image: null 
+      },
+      {
+        id: 3,
+        name: 'Pioneer DMH-2670NEX CarPlay Head Unit',
+        category: 'head-units',
+        rating: 5,
+        reviews: 124,
+        price: 45000,
+        oldPrice: 55000,
+        discount: 18,
+        compatibility: 'Toyota Voxy, Toyota Noah +more',
+        badges: ['Best Seller', 'Apple CarPlay'],
+        badgeColors: ['#f59e0b', '#00c26f'], // Orange, Green
+        inStock: true,
+        image: null
+      },
+      {
+        id: 4,
+        name: 'Sony XS-N1212 Subwoofer',
+        category: 'subwoofers',
+        rating: 4,
+        reviews: 89,
+        price: 8900,
+        oldPrice: 11000,
+        discount: 19,
+        compatibility: 'Universal Fit',
+        badges: ['High Power'],
+        badgeColors: ['#8b5cf6'], // Purple
+        inStock: true,
+        image: null
+      }
+    ];
+
+    setProducts(mockData);
+    setLoading(false);
+  }, []);
+
+  // === STATIC CATEGORIES FOR SIDEBAR ===
   const categories = [
     { id: 'all', name: 'All Products', count: 147 },
     { id: 'head-units', name: 'Head Units', count: 28 },
     { id: 'speakers', name: 'Speakers', count: 45 },
     { id: 'subwoofers', name: 'Subwoofers', count: 23 },
     { id: 'amplifiers', name: 'Amplifiers', count: 18 },
-    { id: 'accessories', name: 'Accessories', count: 31 }
+    { id: 'accessories', name: 'Accessories', count: 33 },
+    { id: 'security', name: 'Security Systems', count: 15 }
   ];
 
-  const products = [
-    {
-      id: 1,
-      name: 'Kenwood KFC-1696PS Component Speakers',
-      rating: 5,
-      reviewCount: 156,
-      currentPrice: 12500,
-      originalPrice: 15000,
-      compatibility: 'Toyota Models, Nissan Models +more',
-      features: ['Free installation included'],
-      badge: 'Best Seller',
-      category: 'speakers'
-    },
-    {
-      id: 2,
-      name: 'JBL GT0609C Component System',
-      rating: 5,
-      reviewCount: 143,
-      currentPrice: 15800,
-      originalPrice: null,
-      compatibility: 'Most Toyota, Most Nissan +more',
-      features: ['Free installation included'],
-      badge: null,
-      category: 'speakers'
-    },
-    {
-      id: 3,
-      name: 'Pioneer DMH-2670NEX CarPlay Head Unit',
-      rating: 5,
-      reviewCount: 124,
-      currentPrice: 45000,
-      originalPrice: 55000,
-      compatibility: 'Toyota Vios, Toyota Model +more',
-      features: ['Free installation included'],
-      badge: 'Apple CarPlay',
-      category: 'head-units'
-    },
-    {
-      id: 4,
-      name: 'Sony XS-N1212 Subwoofer',
-      rating: 4,
-      reviewCount: 89,
-      currentPrice: 8900,
-      originalPrice: 11000,
-      compatibility: 'Universal Fit',
-      features: ['Free installation included'],
-      badge: 'High Power',
-      category: 'subwoofers'
-    }
+  const brands = [
+    { name: 'All Brands', count: 147, active: true },
+    { name: 'Pioneer', count: 42 },
+    { name: 'JBL', count: 35 },
+    { name: 'Kenwood', count: 28 },
+    { name: 'Sony', count: 22 },
   ];
 
-  const compatibilityOptions = [
-    { id: 'popular', name: 'Most Popular' },
-    { id: 'audio', name: 'Best Audio' },
-    { id: 'carplay', name: 'Apple CarPlay' }
-  ];
-
-  const sortOptions = [
-    { id: 'special', name: 'Special Offer' },
-    { id: 'quality', name: 'High Quality' },
-    { id: 'sigas', name: 'Cost of SIGAS' }
-  ];
-
-  const formatPrice = (price) => `KSh ${price.toLocaleString()}`;
-
-  const renderStars = (rating) =>
-    Array.from({ length: 5 }, (_, index) => (
-      <i
-        key={index}
-        className={`fas fa-star ${index < rating ? 'filled' : ''}`}
-      ></i>
-    ));
-
-  const handleAddToCart = (productName) => {
-    alert(`Added ${productName} to cart!`);
-  };
-
-  const handleClearAll = () => {
-    setActiveCategory('all');
-    setSearchQuery('');
-    setSortOption('special');
-    setActiveCompatibility('popular');
-  };
-
+  // === FILTER LOGIC ===
   const filteredProducts = products.filter((product) => {
-    const matchesCategory =
-      activeCategory === 'all' || product.category === activeCategory;
-    const matchesSearch =
-      product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      product.compatibility.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesCategory = activeCategory === 'all' || product.category === activeCategory;
+    const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesCategory && matchesSearch;
   });
 
+  // Helper function to format currency
+  const formatPrice = (price) => `KSh ${price.toLocaleString()}`;
+
+  // Helper to render stars
+  const renderStars = (rating) => {
+    return [...Array(5)].map((_, i) => (
+      <FaStar key={i} color={i < Math.floor(rating) ? "#f59e0b" : "#4b5563"} size={12} />
+    ));
+  };
+
   return (
-    <div className="car-audio-shop dark-mode">
-      <style>{`
-        .dark-mode {
-          background-color: #0f141a;
-          color: #eaeaea;
-          min-height: 100vh;
-          padding: 20px;
-        }
+    <div className="shop-page">
+      {/* Header Section */}
+      <div className="shop-header-section">
+        <div className="container header-content">
+          <div>
+            <div className="breadcrumbs">
+               <span><i className="fas fa-home"></i></span> 
+               <span>&gt;</span> 
+               <span>Shop</span>
+            </div>
+            <h1>Car Audio & Accessories</h1>
+            <p>Professional car audio systems and accessories for Kenyan vehicles</p>
+          </div>
+          <button className="find-compatible-btn">
+            <FaCar /> Find Compatible Products
+          </button>
+        </div>
+      </div>
 
-        .shop-header {
-          text-align: center;
-          margin-bottom: 30px;
-          padding-bottom: 20px;
-          border-bottom: 1px solid #1f2a33;
-        }
-
-        .shop-header h1 {
-          color: #fff;
-          font-size: 2.2rem;
-        }
-
-        .subtitle {
-          color: #a0a8b3;
-        }
-
-        .filters-sidebar {
-          background: #1a1f25;
-          color: #d1d1d1;
-          border-radius: 8px;
-          box-shadow: 0 2px 8px rgba(0,0,0,0.4);
-        }
-
-        .search-input {
-          background: #12171d;
-          color: #eaeaea;
-          border: 1px solid #2b3640;
-        }
-
-        .category-list li {
-          border-bottom: 1px solid #2b3640;
-        }
-
-        .category-list li.active {
-          color: #3498db;
-        }
-
-        .products-section {
-          color: #eaeaea;
-        }
-
-        .sort-select {
-          background: #1a1f25;
-          color: #eaeaea;
-          border: 1px solid #2b3640;
-        }
-
-        .product-card {
-          background: #1a1f25;
-          border-radius: 8px;
-          color: #dcdcdc;
-          box-shadow: 0 3px 12px rgba(0, 0, 0, 0.3);
-        }
-
-        .product-image {
-          background-color: #101419;
-          color: #9ca3af;
-        }
-
-        .product-badge {
-          background: #e74c3c;
-        }
-
-        .product-badge.carplay {
-          background: #2980b9;
-        }
-
-        .product-title {
-          color: #fff;
-        }
-
-        .product-rating .fas.fa-star {
-          color: #f1c40f;
-        }
-
-        .current-price {
-          color: #ffffff;
-        }
-
-        .original-price {
-          color: #777;
-        }
-
-        .product-features i {
-          color: #27ae60;
-        }
-
-        .btn-primary {
-          background: #3498db;
-          color: white;
-        }
-
-        .btn-primary:hover {
-          background: #2178b5;
-        }
-
-        .btn-secondary {
-          background: #2b3640;
-          color: #eaeaea;
-        }
-
-        .btn-secondary:hover {
-          background: #3c4a55;
-        }
-
-        .compatibility-section {
-          background: #1a1f25;
-          color: #eaeaea;
-          border-radius: 8px;
-          box-shadow: 0 2px 8px rgba(0,0,0,0.4);
-        }
-
-        .compatibility-option {
-          background: #2b3640;
-          color: #eaeaea;
-        }
-
-        .compatibility-option.active {
-          background: #3498db;
-          color: white;
-        }
-      `}</style>
-
-      <header className="shop-header">
-        <h1>Car Audio & Accessories</h1>
-        <p className="subtitle">Professional car audio systems and accessories for Kenyan vehicles</p>
-      </header>
-
-      <div className="shop-container" style={{ display: 'flex', gap: '30px', flexWrap: 'wrap', maxWidth: '1200px', margin: '0 auto' }}>
-        {/* Sidebar */}
-        <div className="filters-sidebar" style={{ flex: 1, minWidth: '250px', padding: '20px' }}>
-          <div className="filter-section">
-            <button className="clear-all-btn" onClick={handleClearAll}>
-              Clear All
-            </button>
-            <input
-              type="text"
-              className="search-input"
-              placeholder="Search by name or feature..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
+      <div className="container main-layout">
+        
+        {/* === SIDEBAR === */}
+        <aside className="sidebar">
+          
+          <div className="sidebar-group">
+            <div className="sidebar-header">
+                <h3>Filters</h3>
+                <button className="clear-btn" onClick={() => {setActiveCategory('all'); setSearchQuery('')}}>Clear All</button>
+            </div>
+            <div className="search-input-box">
+                <FaSearch className="search-icon" />
+                <input 
+                  type="text" 
+                  placeholder="Search by name or feature..." 
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+            </div>
           </div>
 
-          <div className="filter-section">
-            <h3>CATEGORIES</h3>
-            <ul className="category-list" style={{ listStyle: 'none', padding: 0 }}>
-              {categories.map((category) => (
-                <li
-                  key={category.id}
-                  className={activeCategory === category.id ? 'active' : ''}
-                  onClick={() => setActiveCategory(category.id)}
-                  style={{ cursor: 'pointer', padding: '8px 0', display: 'flex', justifyContent: 'space-between' }}
+          <div className="sidebar-group">
+            <h4>CATEGORIES</h4>
+            <ul className="category-list">
+              {categories.map(cat => (
+                <li 
+                  key={cat.id} 
+                  className={activeCategory === cat.id ? 'active' : ''}
+                  onClick={() => setActiveCategory(cat.id)}
                 >
-                  <span>{category.name}</span>
-                  <span className="category-count">({category.count})</span>
+                  <span>{cat.name}</span>
+                  <span className="count">{cat.count}</span>
                 </li>
               ))}
             </ul>
           </div>
-        </div>
 
-        {/* Products */}
-        <div className="products-section" style={{ flex: 3 }}>
-          <div className="products-header" style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
-            <div className="products-count">
-              Showing {filteredProducts.length} of {products.length} products
-            </div>
-            <select
-              value={sortOption}
-              onChange={(e) => setSortOption(e.target.value)}
-              className="sort-select"
-            >
-              {sortOptions.map((option) => (
-                <option key={option.id} value={option.id}>
-                  {option.name}
-                </option>
-              ))}
-            </select>
+          <div className="sidebar-group">
+             <h4>PRICE RANGE</h4>
+             <input 
+               type="range" 
+               min="0" 
+               max="100000" 
+               value={priceRange} 
+               onChange={(e) => setPriceRange(e.target.value)}
+               className="price-slider"
+             />
+             <div className="price-labels">
+               <span>KSh 0</span>
+               <span>KSh 100,000</span>
+             </div>
           </div>
 
-          <div className="products-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '25px' }}>
-            {filteredProducts.map((product) => (
-              <div key={product.id} className="product-card">
-                <div className="product-image">
-                  {product.badge && (
-                    <div className={`product-badge ${product.badge.toLowerCase().includes('apple') ? 'carplay' : ''}`}>
-                      {product.badge}
+          <div className="sidebar-group">
+            <h4>BRANDS</h4>
+            <ul className="brand-list">
+                {brands.map((brand, idx) => (
+                    <li key={idx} className={brand.active ? 'active' : ''}>
+                        <span>{brand.name}</span>
+                        <span className="count">({brand.count})</span>
+                    </li>
+                ))}
+            </ul>
+          </div>
+        </aside>
+
+        {/* === MAIN CONTENT === */}
+        <main className="product-listing">
+          
+          {/* Controls Bar */}
+          <div className="listing-controls">
+             <span>Showing {filteredProducts.length} of {products.length} products</span>
+             <div className="controls-right">
+                <div className="view-toggles">
+                    <button className="active"><FaTh /></button>
+                    <button><FaList /></button>
+                </div>
+                <select className="sort-dropdown">
+                    <option>Most Popular</option>
+                    <option>Price: Low to High</option>
+                    <option>Price: High to Low</option>
+                </select>
+             </div>
+          </div>
+
+          {/* Product Grid */}
+          <div className="products-grid">
+            {filteredProducts.map(product => (
+              <div key={product.id} className="shop-card">
+                
+                {/* Image Area (Placeholder) */}
+                <div className="card-image-area">
+                    {/* Badges */}
+                    <div className="badges-container">
+                        {product.badges.map((badge, index) => (
+                            <span 
+                                key={index} 
+                                className="badge"
+                                style={{ backgroundColor: product.badgeColors[index] || '#00c26f' }}
+                            >
+                                {badge}
+                            </span>
+                        ))}
                     </div>
-                  )}
-                  <div className="image-placeholder">
-                    {product.name.split(' ')[0]} Image
-                  </div>
+                    
+                    {/* Placeholder for Image */}
+                    <div className="img-placeholder">
+                        <span>{product.name}</span>
+                        <small>(Image Placeholder)</small>
+                    </div>
+
+                    {!product.inStock && (
+                        <div className="out-of-stock-overlay">
+                            <span>Out of Stock</span>
+                        </div>
+                    )}
                 </div>
 
-                <div className="product-info" style={{ padding: '20px' }}>
-                  <h3 className="product-title">{product.name}</h3>
+                {/* Card Body */}
+                <div className="card-body">
+                    <h3 className="card-title">{product.name}</h3>
+                    
+                    <div className="card-rating">
+                        <div className="stars">{renderStars(product.rating)}</div>
+                        <span className="reviews">({product.reviews})</span>
+                    </div>
 
-                  <div className="product-rating">
-                    {renderStars(product.rating)}
-                    <span className="review-count">({product.reviewCount})</span>
-                  </div>
+                    <div className="card-price-row">
+                        <span className="price">{formatPrice(product.price)}</span>
+                        {product.oldPrice && (
+                            <span className="old-price">{formatPrice(product.oldPrice)}</span>
+                        )}
+                        {product.discount && (
+                            <span className="discount-tag">Save {product.discount}%</span>
+                        )}
+                    </div>
 
-                  <div className="product-pricing">
-                    <span className="current-price">{formatPrice(product.currentPrice)}</span>
-                    {product.originalPrice && (
-                      <span className="original-price">{formatPrice(product.originalPrice)}</span>
-                    )}
-                  </div>
+                    <div className="card-meta">
+                        <p className="compatibility">
+                            <FaCheckCircle className="icon" /> Compatible: {product.compatibility}
+                        </p>
+                        <p className="free-install">
+                            <FaBolt className="icon" /> Free installation included
+                        </p>
+                    </div>
 
-                  <div className="product-features">
-                    <p>
-                      <i className="fas fa-check-circle"></i> Compatible: {product.compatibility}
-                    </p>
-                    {product.features.map((feature, index) => (
-                      <p key={index}>
-                        <i className="fas fa-check-circle"></i> {feature}
-                      </p>
-                    ))}
-                  </div>
-
-                  <div className="product-actions" style={{ display: 'flex', gap: '10px' }}>
-                    <button className="btn btn-primary" onClick={() => handleAddToCart(product.name)}>
-                      Add to Cart
-                    </button>
-                    <button className="btn btn-secondary">
-                      {product.id === 2 ? 'Compare' : 'Quick View'}
-                    </button>
-                  </div>
+                    <div className="card-actions">
+                        {product.inStock ? (
+                            <button className="add-cart-btn">
+                                <i className="fas fa-shopping-cart"></i> Add to Cart
+                            </button>
+                        ) : (
+                            <button className="out-stock-btn" disabled>Out of Stock</button>
+                        )}
+                        <div className="secondary-actions">
+                            <button>Quick View</button>
+                            <button>Compare</button>
+                        </div>
+                    </div>
                 </div>
               </div>
             ))}
           </div>
 
-          {/* Compatibility */}
-          <div className="compatibility-section" style={{ padding: '25px', marginTop: '40px' }}>
-            <h2>Find Compatible Products</h2>
-            <div className="compatibility-options" style={{ display: 'flex', gap: '15px', flexWrap: 'wrap' }}>
-              {compatibilityOptions.map((option) => (
-                <div
-                  key={option.id}
-                  className={`compatibility-option ${activeCompatibility === option.id ? 'active' : ''}`}
-                  onClick={() => setActiveCompatibility(option.id)}
-                  style={{ cursor: 'pointer', padding: '10px 20px', borderRadius: '4px' }}
-                >
-                  {option.name}
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
+        </main>
       </div>
-
     <Footer />
+
+    {/* === CSS STYLES === */}
+    <style>{`
+        /* --- RESET & VARIABLES --- */
+        .shop-page {
+            background-color: #0c0c0c;
+            color: #d1d5db;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* --- HEADER SECTION --- */
+        .shop-header-section {
+            background-color: #121212;
+            padding: 40px 0;
+            border-bottom: 1px solid #1f1f1f;
+            margin-bottom: 40px;
+        }
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .breadcrumbs {
+            color: #6b7280;
+            font-size: 0.85rem;
+            margin-bottom: 10px;
+            display: flex;
+            gap: 8px;
+        }
+        .shop-header-section h1 {
+            color: white;
+            font-size: 2rem;
+            margin-bottom: 5px;
+        }
+        .shop-header-section p {
+            color: #9ca3af;
+        }
+        .find-compatible-btn {
+            background: #1f1f1f;
+            color: white;
+            border: 1px solid #333;
+            padding: 10px 20px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .find-compatible-btn:hover {
+            background: #27272a;
+            border-color: #444;
+        }
+
+        /* --- MAIN LAYOUT --- */
+        .main-layout {
+            display: flex;
+            gap: 30px;
+            padding-bottom: 60px;
+        }
+
+        /* --- SIDEBAR --- */
+        .sidebar {
+            width: 280px;
+            flex-shrink: 0;
+        }
+        .sidebar-group {
+            background: #121212;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #1f1f1f;
+            margin-bottom: 20px;
+        }
+        .sidebar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .sidebar-header h3 { color: white; margin: 0; }
+        .clear-btn { background: none; border: none; color: #9ca3af; font-size: 0.8rem; cursor: pointer; }
+        
+        .search-input-box {
+            display: flex;
+            align-items: center;
+            background: #1a1a1a;
+            border: 1px solid #333;
+            padding: 8px 12px;
+            border-radius: 6px;
+            gap: 10px;
+        }
+        .search-input-box input {
+            background: none;
+            border: none;
+            color: white;
+            width: 100%;
+            outline: none;
+        }
+
+        .sidebar h4 {
+            color: #6b7280;
+            font-size: 0.75rem;
+            margin-bottom: 15px;
+            letter-spacing: 0.5px;
+        }
+
+        /* Categories List */
+        .category-list, .brand-list { list-style: none; padding: 0; margin: 0; }
+        .category-list li, .brand-list li {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-bottom: 2px;
+            font-size: 0.9rem;
+        }
+        .category-list li:hover, .brand-list li:hover { background: #1a1a1a; color: white; }
+        
+        /* Active Category Style */
+        .category-list li.active, .brand-list li.active {
+            background-color: #064e3b; /* Dark Green bg */
+            color: #34d399; /* Light Green text */
+            font-weight: 500;
+        }
+        .category-list .count, .brand-list .count { color: #6b7280; font-size: 0.8rem; }
+
+        /* Price Slider */
+        .price-slider { width: 100%; accent-color: #00c26f; }
+        .price-labels { display: flex; justify-content: space-between; font-size: 0.8rem; color: #6b7280; margin-top: 5px; }
+
+
+        /* --- PRODUCTS AREA --- */
+        .product-listing {
+            flex-grow: 1;
+        }
+
+        .listing-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            color: #9ca3af;
+        }
+        .controls-right { display: flex; gap: 15px; align-items: center; }
+        .view-toggles { display: flex; gap: 5px; }
+        .view-toggles button {
+            background: #1f1f1f;
+            border: 1px solid #333;
+            color: #888;
+            width: 32px;
+            height: 32px;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .view-toggles button.active { background: #00c26f; color: white; border-color: #00c26f; }
+        .sort-dropdown {
+            background: #1f1f1f;
+            color: white;
+            border: 1px solid #333;
+            padding: 6px 10px;
+            border-radius: 4px;
+            outline: none;
+        }
+
+        /* --- PRODUCT GRID --- */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        /* --- SHOP CARD --- */
+        .shop-card {
+            background-color: #121212;
+            border: 1px solid #1f1f1f;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.2s, border-color 0.2s;
+            display: flex;
+            flex-direction: column;
+        }
+        .shop-card:hover {
+            transform: translateY(-5px);
+            border-color: #333;
+        }
+
+        /* Image Area */
+        .card-image-area {
+            height: 200px;
+            background-color: #000;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .img-placeholder {
+            text-align: center;
+            color: #333;
+            font-size: 0.9rem;
+        }
+        
+        .badges-container {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .badge {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+        }
+
+        .out-of-stock-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .out-of-stock-overlay span {
+            border: 1px solid #ef4444;
+            color: #ef4444;
+            padding: 5px 15px;
+            border-radius: 20px;
+            background: rgba(0,0,0,0.8);
+            font-size: 0.85rem;
+        }
+
+        /* Card Body */
+        .card-body {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-title {
+            color: #fff;
+            font-size: 1rem;
+            margin-bottom: 8px;
+            line-height: 1.4;
+            font-weight: 500;
+        }
+
+        .card-rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 12px;
+            font-size: 0.8rem;
+        }
+        .reviews { color: #6b7280; }
+
+        .card-price-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .price { font-size: 1.1rem; font-weight: 700; color: #00c26f; }
+        .old-price { font-size: 0.9rem; color: #6b7280; text-decoration: line-through; }
+        .discount-tag { font-size: 0.7rem; background: #ef4444; color: white; padding: 2px 6px; border-radius: 3px; font-weight: 600; }
+
+        .card-meta {
+            font-size: 0.8rem;
+            color: #9ca3af;
+            margin-bottom: 20px;
+            border-top: 1px solid #1f1f1f;
+            padding-top: 10px;
+        }
+        .card-meta p { margin-bottom: 5px; display: flex; align-items: center; gap: 6px; }
+        .card-meta .icon { color: #00c26f; }
+        .free-install { color: #eab308; } /* Yellow/Gold for free install */
+
+        /* Buttons */
+        .card-actions { margin-top: auto; }
+        .add-cart-btn {
+            width: 100%;
+            background-color: #00c26f;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 10px;
+            transition: background 0.2s;
+        }
+        .add-cart-btn:hover { background-color: #00a65c; }
+        
+        .out-stock-btn {
+            width: 100%;
+            background-color: #1f1f1f;
+            color: #666;
+            border: 1px solid #333;
+            padding: 10px;
+            border-radius: 6px;
+            cursor: not-allowed;
+            margin-bottom: 10px;
+        }
+
+        .secondary-actions { display: flex; gap: 10px; }
+        .secondary-actions button {
+            flex: 1;
+            background: white;
+            color: black;
+            border: none;
+            padding: 8px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        .secondary-actions button:hover { background: #f3f4f6; }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .main-layout { flex-direction: column; }
+            .sidebar { width: 100%; }
+            .header-content { flex-direction: column; text-align: center; gap: 15px; }
+            .find-compatible-btn { width: 100%; justify-content: center; }
+        }
+    `}</style>
     </div>
   );
 };

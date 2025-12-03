@@ -2,8 +2,7 @@ import React from "react";
 import Navbar from "../components/Navbar";
 import HeroSection from "../components/Herosection";
 import FeaturedProducts from "../components/Featuredproduct";
-import Services from "../components/Featureservice";
-import Servicessection from "../components/Servicessection";
+import Services from "../components/Services";
 import Footer from "../components/footer";
 import TestimonialsSection from "../components/Testimonialsection";
 import FreeGuide from "../components/FreeGuide";
@@ -13,9 +12,8 @@ const Home = () => {
     <div className="home">
 
       <HeroSection />
-      <FeaturedProducts />
-      <Services />
-      <Servicessection/>
+      <FeaturedProducts />    
+      <Services/>
       <TestimonialsSection />
       <FreeGuide />
       <Footer />

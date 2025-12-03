@@ -1,179 +1,137 @@
 import React from "react";
+import { FaClock, FaCalendarAlt } from "react-icons/fa";
 
 const MiddleSection = () => {
-  // Online Images
-  const bannerImg =
-    "https://images.unsplash.com/photo-1549921296-3c656b53f863?auto=format&fit=crop&w=1200&q=80";
-
-  const authorAvatar = "https://randomuser.me/api/portraits/men/32.jpg";
-
-  const s = {
-    wrap: {
-      maxWidth: 1180,
-      margin: "36px auto",
-      padding: "20px",
-    },
-    card: {
-      display: "grid",
-      gridTemplateColumns: "1fr 1fr",
-      gap: 24,
-      background: "linear-gradient(145deg, #0c0c0c, #131313)",
-      borderRadius: 12,
-      border: "1px solid rgba(255,255,255,0.06)",
-      overflow: "hidden",
-      boxShadow: "0 4px 24px rgba(0,0,0,0.6)",
-    },
-    media: {
-      width: "100%",
-      height: "420px",
-      objectFit: "cover",
-      display: "block",
-    },
-    content: {
-      padding: 36,
-      color: "rgba(230,230,230,0.95)",
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "center",
-    },
-    smallBadge: {
-      display: "inline-block",
-      background: "rgba(20,180,125,0.12)",
-      color: "#14b27b",
-      padding: "6px 10px",
-      borderRadius: 12,
-      fontSize: 13,
-      marginBottom: 12,
-      border: "1px solid rgba(20,178,123,0.2)",
-      width: "fit-content",
-    },
-    featuredBadge: {
-      display: "inline-block",
-      background: "#ff9d29",
-      color: "#fff",
-      padding: "6px 12px",
-      borderRadius: 8,
-      fontSize: 13,
-      margin: 14,
-      position: "absolute",
-      top: 14,
-      left: 16,
-      zIndex: 3,
-      boxShadow: "0 2px 12px rgba(255,157,41,0.4)",
-      fontWeight: 600,
-    },
-    title: {
-      fontSize: 32,
-      lineHeight: 1.15,
-      margin: "6px 0 16px",
-      color: "#fff",
-      fontWeight: 600,
-    },
-    desc: {
-      color: "rgba(230,230,230,0.7)",
-      marginBottom: 18,
-      fontSize: 16,
-      lineHeight: 1.6,
-    },
-    metaRow: {
-      display: "flex",
-      alignItems: "center",
-      gap: 16,
-      color: "rgba(230,230,230,0.8)",
-      marginBottom: 18,
-      fontSize: 14,
-    },
-    avatar: {
-      width: 36,
-      height: 36,
-      borderRadius: "50%",
-      objectFit: "cover",
-      marginRight: 8,
-      border: "2px solid rgba(255,255,255,0.1)",
-    },
-    stats: {
-      display: "flex",
-      gap: 18,
-      color: "rgba(230,230,230,0.6)",
-      marginBottom: 12,
-      alignItems: "center",
-      fontSize: 14,
-      fontWeight: 500,
-    },
-    readBtn: {
-      marginLeft: "auto",
-      background: "#0098ee",
-      color: "#fff",
-      border: "none",
-      padding: "10px 20px",
-      borderRadius: 8,
-      cursor: "pointer",
-      fontWeight: 600,
-      boxShadow: "0 4px 16px rgba(0,152,238,0.28)",
-      transition: "0.25s",
-    },
-    mediaWrap: {
-      position: "relative",
-      background: "#000",
-    },
-  };
-
   return (
-    <div style={s.wrap}>
-      <div style={s.card}>
-        {/* LEFT IMAGE */}
-        <div style={s.mediaWrap}>
-          <span style={s.featuredBadge}>Featured</span>
-          <img src={bannerImg} alt="Featured" style={s.media} />
+    <div className="featured-wrapper">
+      <div className="featured-card">
+        {/* Left Image */}
+        <div className="featured-image">
+            <span className="featured-tag">Featured</span>
+            <img 
+                src="https://images.unsplash.com/photo-1550009158-9ebf69173e03?q=80&w=1200&auto=format&fit=crop" 
+                alt="AI in Car Audio" 
+            />
         </div>
 
-        {/* RIGHT CONTENT */}
-        <div style={s.content}>
-          <span style={s.smallBadge}>Car Audio</span>
-
-          <h2 style={s.title}>
-            The Future of Car Audio: AI-Powered Sound Systems in 2024
-          </h2>
-
-          <p style={s.desc}>
-            Explore how artificial intelligence is revolutionizing car audio
-            systems, from personalized sound profiles to voice-controlled
-            interfaces that understand your preferences.
-          </p>
-
-          {/* AUTHOR */}
-          <div style={s.metaRow}>
-            <img src={authorAvatar} alt="Author" style={s.avatar} />
-            <div>
-              <div style={{ fontWeight: 600, color: "#eee" }}>James Mutua</div>
-              <div style={{ fontSize: 13, color: "rgba(230,230,230,0.5)" }}>
-                10 March 2024 • 8 min read
-              </div>
+        {/* Right Content */}
+        <div className="featured-content">
+            <span className="category-badge">Car Audio</span>
+            <h2>The Future of Car Audio: AI-Powered Sound Systems in 2024</h2>
+            <p>
+                Explore how artificial intelligence is revolutionizing car audio systems, 
+                from personalized sound profiles to voice-controlled interfaces that 
+                understand your preferences.
+            </p>
+            
+            <div className="author-meta">
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop" alt="Author" className="author-img" />
+                <div className="meta-text">
+                    <span className="author-name">James Mutua</span>
+                    <div className="date-time">
+                        <span><FaCalendarAlt size={12}/> 10 March 2024</span>
+                        <span><FaClock size={12}/> 8 min read</span>
+                    </div>
+                </div>
             </div>
-          </div>
-
-          {/* STATS + BUTTON */}
-          <div style={{ display: "flex", alignItems: "center" }}>
-            <div style={s.stats}>
-              <div>1247 views</div>
-              <div>23 comments</div>
-            </div>
-
-            <button
-              style={s.readBtn}
-              onClick={() => alert("Read more")}
-              onMouseEnter={(e) =>
-                (e.currentTarget.style.background = "#00b1ff")
-              }
-              onMouseLeave={(e) =>
-                (e.currentTarget.style.background = "#0098ee")
-              }
-            >
-              Read More →
-            </button>
-          </div>
         </div>
       </div>
+
+      <style>{`
+        .featured-wrapper {
+            margin-bottom: 60px;
+        }
+        .featured-card {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            background: #121212;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid #27272a;
+        }
+        .featured-image {
+            position: relative;
+            height: 100%;
+            min-height: 350px;
+        }
+        .featured-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .featured-tag {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: #f59e0b; /* Orange */
+            color: black;
+            padding: 5px 12px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+        .featured-content {
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .category-badge {
+            color: #10b981;
+            background: rgba(16, 185, 129, 0.1);
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            width: fit-content;
+            margin-bottom: 15px;
+        }
+        .featured-content h2 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            line-height: 1.2;
+            color: white;
+        }
+        .featured-content p {
+            color: #9ca3af;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        .author-meta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .author-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .meta-text {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        .author-name {
+            color: white;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+        .date-time {
+            color: #6b7280;
+            font-size: 0.8rem;
+            display: flex;
+            gap: 15px;
+        }
+        .date-time span { display: flex; align-items: center; gap: 5px; }
+
+        @media(max-width: 900px) {
+            .featured-card { grid-template-columns: 1fr; }
+            .featured-image { height: 250px; min-height: auto; }
+            .featured-content { padding: 25px; }
+            .featured-content h2 { font-size: 1.5rem; }
+        }
+      `}</style>
     </div>
   );
 };
